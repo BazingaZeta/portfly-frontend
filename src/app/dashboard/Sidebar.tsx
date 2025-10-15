@@ -9,6 +9,7 @@ export default function Sidebar() {
         <ul>
           <li><Link href="/dashboard">Dashboard</Link></li>
           <li><Link href="/dashboard/portfolio">Portfolio</Link></li>
+          <li><Link href="/dashboard/watchlist">Watchlist</Link></li>
           <li><Link href="/dashboard/settings">Settings</Link></li>
         </ul>
       </nav>
