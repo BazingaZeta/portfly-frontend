@@ -33,7 +33,13 @@ const generateTrendData = () => {
   return data;
 };
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: Array<{ value: number; name?: string; dataKey?: string }>;
+  label?: string;
+}
+
+const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   if (active && payload && payload.length) {
     return (
       <div style={{ backgroundColor: '#2d3748', padding: '10px', border: '1px solid #4a5568', borderRadius: '6px' }}>
