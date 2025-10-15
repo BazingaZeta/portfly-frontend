@@ -65,3 +65,11 @@
 .pageContent {
   padding: 2rem;
 }
+
+.chartContainer {
+  background-color: #1f2937;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #374151;
+  margin-bottom: 2rem;
+}

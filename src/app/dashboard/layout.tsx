@@ -1,6 +1,6 @@
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
-import { authOptions } from '../api/auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth';
 import styles from './dashboard.module.css';
 import Sidebar from './Sidebar';
 import { SignOutButton } from '../components/authButtons';
