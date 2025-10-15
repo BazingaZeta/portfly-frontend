@@ -31,7 +31,7 @@ jobs:
       run: npm run lint
 
     - name: Run TypeScript Check (Type Safety)
-      run: npm run tsc --noEmit
+      run: npx tsc --noEmit
 
     - name: Run Tests (Stability)
       run: npm test
