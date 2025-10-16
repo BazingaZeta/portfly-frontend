@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { STOCKS, type Stock } from '@/lib/mock-data';
 import StockCard from './StockCard';
 import styles from './portfolio.module.css';
+import ConfirmationModal from './ConfirmationModal';
 
 type Signal = 'BUY' | 'SELL' | 'HOLD';
 type AnalysisResult = { stock: Stock; signal: Signal; performed: boolean };
@@ -33,7 +34,7 @@ const fetchAnalysis = (selectedTickers: string[]): Promise<AnalysisResult[]> => 
 function ResultsTable({ results, onReset, onTogglePerformed }: { results: AnalysisResult[], onReset: () => void, onTogglePerformed: (ticker: string) => void }) {
   return (
     <div>
-      <h2>Analysis Results</h2>
+      <h2 className="text-2xl font-bold mb-4">Analysis Results</h2>
       <table className={styles.resultsTable}>
         <thead>
           <tr><th>Ticker</th><th>Name</th><th>Price</th><th>Signal</th><th className={styles.checkboxCell}>Eseguita</th></tr>
@@ -41,7 +42,7 @@ function ResultsTable({ results, onReset, onTogglePerformed }: { results: Analys
         <tbody>
           {results.map(({ stock, signal, performed }) => (
             <tr key={stock.ticker} className={performed ? styles.rowPerformed : ''}>
-              <td>{stock.ticker}</td>
+              <td className="font-medium">{stock.ticker}</td>
               <td>{stock.name}</td>
               <td>${stock.price.toFixed(2)}</td>
               <td><span className={`${styles.signalBadge} ${getSignalStyle(signal)}`}>{signal}</span></td>
@@ -57,7 +58,7 @@ function ResultsTable({ results, onReset, onTogglePerformed }: { results: Analys
           ))}
         </tbody>
       </table>
-      <div className={styles.controls}>
+      <div className="mt-6 text-right">
         <button onClick={onReset} className={styles.button}>Analyze New Selection</button>
       </div>
     </div>
@@ -68,6 +69,9 @@ export default function PortfolioPage() {
   const [selectedTickers, setSelectedTickers] = useState<Set<string>>(new Set());
   const [isLoading, setIsLoading] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult[] | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [stockToConfirm, setStockToConfirm] = useState<string | null>(null);
+  const [isConfirmingAction, setIsConfirmingAction] = useState(false);
 
   const benchmark = STOCKS.find(s => s.ticker === 'SPY');
   const portfolioStocks = STOCKS.filter(s => s.ticker !== 'SPY');
@@ -98,18 +102,53 @@ export default function PortfolioPage() {
   }
 
   const handleTogglePerformed = (ticker: string) => {
+    // Open modal instead of directly toggling
+    setStockToConfirm(ticker);
+    setIsModalOpen(true);
+  };
+
+  const handleConfirmToggle = async () => {
+    if (!stockToConfirm) return;
+
+    setIsConfirmingAction(true);
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000)); 
+
     setAnalysisResult(prevResults => {
       if (!prevResults) return null;
       return prevResults.map(result => 
-        result.stock.ticker === ticker 
+        result.stock.ticker === stockToConfirm 
           ? { ...result, performed: !result.performed } 
           : result
       );
     });
+
+    setIsConfirmingAction(false);
+    setIsModalOpen(false);
+    setStockToConfirm(null);
   };
 
+  const handleCancelToggle = () => {
+    setIsModalOpen(false);
+    setStockToConfirm(null);
+  };
+
+  const selectedCount = selectedTickers.size;
+
   if (analysisResult) {
-    return <ResultsTable results={analysisResult} onReset={handleReset} onTogglePerformed={handleTogglePerformed} />;
+    return (
+      <>
+        <ResultsTable results={analysisResult} onReset={handleReset} onTogglePerformed={handleTogglePerformed} />
+        <ConfirmationModal
+          isOpen={isModalOpen}
+          onClose={handleCancelToggle}
+          onConfirm={handleConfirmToggle}
+          title="Conferma Operazione"
+          message={`Sei sicuro di voler ${analysisResult.find(r => r.stock.ticker === stockToConfirm)?.performed ? 'annullare' : 'confermare'} l'esecuzione per ${stockToConfirm}?`}
+          isLoading={isConfirmingAction}
+        />
+      </>
+    );
   }
 
   return (
@@ -118,14 +157,14 @@ export default function PortfolioPage() {
       <p style={{ marginBottom: '2rem', color: '#9ca3af' }}>Select the assets you want to add. The portfolio will be benchmarked against SPY.</p>
       
       {benchmark && (
-        <div className={styles.benchmark}>
-          <h2>Benchmark</h2>
-          <p>{benchmark.ticker} - ${benchmark.price.toFixed(2)}</p>
+        <div className="mb-6">
+          <h2 className="text-lg font-bold">Benchmark</h2>
+          <p className="text-2xl font-bold">{benchmark.ticker} - ${benchmark.price.toFixed(2)}</p>
         </div>
       )}
 
-      <h2>Available Stocks</h2>
-      <div className={styles.grid}>
+      <h2 className="text-2xl font-bold mb-4">Available Stocks</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {portfolioStocks.map(stock => (
           <StockCard 
             key={stock.ticker} 
@@ -136,9 +175,9 @@ export default function PortfolioPage() {
         ))}
       </div>
 
-      <div className={styles.controls}>
-        <button onClick={handleAnalyze} disabled={selectedTickers.size === 0 || isLoading} className={styles.button}>
-          {isLoading ? 'Analyzing...' : `Analyze ${selectedTickers.size} Selected Stocks`}
+      <div className="mt-6 text-right">
+        <button onClick={handleAnalyze} disabled={selectedCount === 0 || isLoading} className={styles.button}>
+          {isLoading ? 'Analyzing...' : `Analyze ${selectedCount} Selected Stocks`}
         </button>
       </div>
     </div>
