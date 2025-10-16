@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { STOCKS, type Stock } from '@/lib/mock-data';
 import StockCard from './StockCard';
 import styles from './portfolio.module.css';
 import ConfirmationModal from './ConfirmationModal';
+import { FinnhubAPI } from '@/lib/finnhub-api';
 
 type Signal = 'BUY' | 'SELL' | 'HOLD';
 type AnalysisResult = { stock: Stock; signal: Signal; performed: boolean };
@@ -16,12 +17,12 @@ const getSignalStyle = (signal: Signal) => {
   return styles.hold;
 };
 
-const fetchAnalysis = (selectedTickers: string[]): Promise<AnalysisResult[]> => {
+const fetchAnalysis = (selectedTickers: string[], stocks: Stock[]): Promise<AnalysisResult[]> => {
   return new Promise(resolve => {
     setTimeout(() => {
       const signals: Signal[] = ['BUY', 'SELL', 'HOLD'];
       const results: AnalysisResult[] = selectedTickers.map(ticker => {
-        const stock = STOCKS.find(s => s.ticker === ticker)!;
+        const stock = stocks.find(s => s.ticker === ticker)!;
         const randomSignal = signals[Math.floor(Math.random() * signals.length)];
         return { stock, signal: randomSignal, performed: false }; // Add performed state
       });
@@ -73,8 +74,39 @@ export default function PortfolioPage() {
   const [stockToConfirm, setStockToConfirm] = useState<string | null>(null);
   const [isConfirmingAction, setIsConfirmingAction] = useState(false);
 
-  const benchmark = STOCKS.find(s => s.ticker === 'SPY');
-  const portfolioStocks = STOCKS.filter(s => s.ticker !== 'SPY');
+  const [benchmark, setBenchmark] = useState<Stock | undefined>(STOCKS.find(s => s.ticker === 'SPY'));
+  const [portfolioStocks, setPortfolioStocks] = useState<Stock[]>(STOCKS.filter(s => s.ticker !== 'SPY'));
+
+  useEffect(() => {
+    const finnhubApi = new FinnhubAPI(process.env.NEXT_PUBLIC_FINNHUB_API_KEY!);
+
+    const fetchPrices = async () => {
+      const updatedStocks = await Promise.all(
+        portfolioStocks.map(async (stock) => {
+          try {
+            const quote = await finnhubApi.getQuote(stock.ticker);
+            return { ...stock, price: quote.c };
+          } catch (error) {
+            console.error(`Failed to fetch price for ${stock.ticker}`, error);
+            return stock;
+          }
+        })
+      );
+      setPortfolioStocks(updatedStocks);
+
+      if (benchmark) {
+        try {
+          const quote = await finnhubApi.getQuote(benchmark.ticker);
+          setBenchmark({ ...benchmark, price: quote.c });
+        } catch (error) {
+          console.error(`Failed to fetch price for ${benchmark.ticker}`, error);
+        }
+      }
+    };
+
+    fetchPrices();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSelectStock = (ticker: string) => {
     setSelectedTickers(prev => {
@@ -91,7 +123,7 @@ export default function PortfolioPage() {
   const handleAnalyze = async () => {
     if (selectedTickers.size === 0) return;
     setIsLoading(true);
-    const results = await fetchAnalysis(Array.from(selectedTickers));
+    const results = await fetchAnalysis(Array.from(selectedTickers), portfolioStocks);
     setAnalysisResult(results);
     setIsLoading(false);
   };
