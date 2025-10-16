@@ -18,7 +18,7 @@ export default function DashboardPage() {
         <ProfitTrendChart />
       </div>
 
-      <h2 className="text-2xl font-bold mb-4">Market Overview</h2>
+      <h2 className="text-xl md:text-2xl font-bold mb-4">Market Overview</h2>
       <div className={styles.marketOverviewGrid}>
         <MarketSentimentGauge />
         <VIXIndicator />

@@ -43,11 +43,11 @@ function ResultsTable({ results, onReset, onTogglePerformed }: { results: Analys
         <tbody>
           {results.map(({ stock, signal, performed }) => (
             <tr key={stock.ticker} className={performed ? styles.rowPerformed : ''}>
-              <td className="font-medium">{stock.ticker}</td>
-              <td>{stock.name}</td>
-              <td>${stock.price.toFixed(2)}</td>
-              <td><span className={`${styles.signalBadge} ${getSignalStyle(signal)}`}>{signal}</span></td>
-              <td className={styles.checkboxCell}>
+              <td data-label="Ticker" className="font-medium">{stock.ticker}</td>
+              <td data-label="Name">{stock.name}</td>
+              <td data-label="Price">${stock.price.toFixed(2)}</td>
+              <td data-label="Signal"><span className={`${styles.signalBadge} ${getSignalStyle(signal)}`}>{signal}</span></td>
+              <td data-label="Eseguita" className={styles.checkboxCell}>
                 <input 
                   type="checkbox" 
                   className={styles.checkbox}

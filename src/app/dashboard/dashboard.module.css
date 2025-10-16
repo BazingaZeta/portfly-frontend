@@ -7,9 +7,9 @@
 
 .sidebar {
   width: 250px;
-  background-color: #1f2937; /* Slightly lighter dark */
+  background-color: #111827;
   padding: 1.5rem;
-  border-right: 1px solid #374151;
+  border-right: none;
 }
 
 .sidebar h2 {
@@ -29,7 +29,21 @@
   border-radius: 6px;
   text-decoration: none;
   color: #d1d5db;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, color 0.2s;
+  position: relative; /* For the pseudo-element border */
+}
+
+.sidebarNav li a::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 0;
+  width: 4px;
+  background-color: #4f46e5;
+  border-radius: 2px;
+  transition: height 0.2s ease-in-out;
 }
 
 .sidebarNav li a:hover {
@@ -37,10 +51,21 @@
   color: #ffffff;
 }
 
+.sidebarNav li a.active {
+  background-color: #374151;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.sidebarNav li a.active::before {
+  height: 60%; /* Show the border */
+}
+
 .mainContent {
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-width: 0; /* Add this to prevent overflow */
 }
 
 .header {
@@ -132,6 +157,49 @@
 .holdingsTable th {
   color: #9ca3af;
   font-weight: 600;
+}
+
+.hamburger, .closeButton {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+  color: #d1d5db;
+}
+
+.hamburger span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  margin: 5px 0;
+  background-color: #d1d5db;
+}
+
+.closeButton {
+  font-size: 2rem;
+}
+
+.sidebarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.sidebarHeader h2 {
+  margin-bottom: 0;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
 }
 
 .sentimentGaugeContainer {
@@ -319,4 +387,52 @@
 }
 .sentimentStrongBearish {
   background-color: #ef4444; /* Red */
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    height: 100%;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .hamburger, .closeButton {
+    display: block;
+  }
+  
+  .header {
+    justify-content: space-between;
+    padding: 1rem;
+  }
+
+  .pageContent {
+    padding: 1rem;
+  }
+
+  .chartContainer,
+  .summaryCard,
+  .sentimentGaugeContainer,
+  .vixIndicatorContainer,
+  .fearGreedContainer,
+  .topMoversContainer,
+  .holdingsTableContainer {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .holdingsTable th, .holdingsTable td {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .marketOverviewGrid,
+  .summaryCards,
+  .moversGrid {
+    gap: 1rem;
+  }
 }
