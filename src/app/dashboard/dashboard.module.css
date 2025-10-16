@@ -133,3 +133,190 @@
   color: #9ca3af;
   font-weight: 600;
 }
+
+.sentimentGaugeContainer {
+  background-color: #1f2937;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #374151;
+  margin-bottom: 2rem;
+}
+
+.sentimentGaugeTitle {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.gaugeBarBackground {
+  width: 100%;
+  height: 20px;
+  background-color: #374151;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.gaugeBarFill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.5s ease-in-out, background-color 0.5s ease-in-out;
+}
+
+.sentimentLabel {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.sentimentLegend {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+.vixIndicatorContainer {
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #374151;
+  text-align: center;
+  transition: background-color 0.5s ease-in-out, border-color 0.5s ease-in-out;
+}
+
+.vixIndicatorTitle {
+  font-size: 1rem;
+  color: #d1d5db;
+  margin-bottom: 0.5rem;
+}
+
+.vixIndicatorValue {
+  font-size: 2.5rem;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.vixIndicatorLevel {
+  font-size: 1rem;
+  color: #d1d5db;
+  margin-top: 0.5rem;
+}
+
+.vixLow {
+  background-color: #059669; /* Darker Green */
+  border-color: #047857;
+}
+.vixModerate {
+  background-color: #d97706; /* Darker Yellow/Orange */
+  border-color: #b45309;
+}
+.vixHigh {
+  background-color: #f97316; /* Orange */
+  border-color: #ea580c;
+}
+.vixExtreme {
+  background-color: #ef4444; /* Red */
+  border-color: #dc2626;
+}
+
+.marketOverviewGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjusted for 3 items */
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.fearGreedContainer {
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #374151;
+  text-align: center;
+  transition: background-color 0.5s ease-in-out, border-color 0.5s ease-in-out;
+}
+
+.fearGreedTitle {
+  font-size: 1rem;
+  color: #d1d5db;
+  margin-bottom: 0.5rem;
+}
+
+.fearGreedScore {
+  font-size: 2.5rem;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.fearGreedCategory {
+  font-size: 1rem;
+  color: #d1d5db;
+  margin-top: 0.5rem;
+}
+
+.fgExtremeFear {
+  background-color: #ef4444; /* Red */
+  border-color: #dc2626;
+}
+.fgFear {
+  background-color: #f97316; /* Orange */
+  border-color: #ea580c;
+}
+.fgNeutral {
+  background-color: #d97706; /* Darker Yellow/Orange */
+  border-color: #b45309;
+}
+.fgGreed {
+  background-color: #059669; /* Darker Green */
+  border-color: #047857;
+}
+.fgExtremeGreed {
+  background-color: #047857; /* Even Darker Green */
+  border-color: #065f46;
+}
+
+.topMoversContainer {
+  background-color: #1f2937;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #374151;
+  margin-bottom: 2rem;
+}
+
+.moversGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.moversList ul {
+  list-style: none;
+  padding: 0;
+}
+
+.moverItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #374151;
+}
+
+.moverItem:last-child {
+  border-bottom: none;
+}
+
+.sentimentStrongBullish {
+  background-color: #10b981; /* Strong Green */
+}
+.sentimentBullish {
+  background-color: #34d399; /* Lighter Green */
+}
+.sentimentNeutral {
+  background-color: #eab308; /* Yellow */
+}
+.sentimentBearish {
+  background-color: #f97316; /* Orange */
+}
+.sentimentStrongBearish {
+  background-color: #ef4444; /* Red */
+}
