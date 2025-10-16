@@ -27,6 +27,7 @@ export default function Sidebar({ isOpen, toggle }: { isOpen: boolean, toggle: (
               <Link
                 href={href}
                 className={pathname === href ? styles.active : ''}
+                onClick={toggle} // Always close the sidebar on click
               >
                 {label}
               </Link>

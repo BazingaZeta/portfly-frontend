@@ -22,6 +22,10 @@ export function SignInButton({ style, className }: { style?: React.CSSProperties
   );
 }
 
-export function SignOutButton() {
-  return <button onClick={() => signOut()}>Sign out</button>;
+export function SignOutButton({ className }: { className?: string }) {
+  return (
+    <button onClick={() => signOut()} className={className}>
+      Sign out
+    </button>
+  );
 }

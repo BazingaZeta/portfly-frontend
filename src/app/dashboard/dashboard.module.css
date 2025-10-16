@@ -7,7 +7,7 @@
 
 .sidebar {
   width: 250px;
-  background-color: #111827;
+  background: linear-gradient(to right, #1f2937, #111827);
   padding: 1.5rem;
   border-right: none;
 }
@@ -435,4 +435,81 @@
   .moversGrid {
     gap: 1rem;
   }
+}
+
+.userMenuContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.userMenuButton {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: #e5e7eb;
+  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+  border-radius: 9999px; /* Full rounded */
+  transition: background-color 0.2s;
+}
+
+.userMenuButton:hover {
+  background-color: #374151;
+}
+
+.userAvatar {
+  margin-right: 0.5rem;
+}
+
+.userDropdownMenu {
+  position: absolute;
+  top: calc(100% + 0.5rem); /* Position below the button */
+  right: 0;
+  background-color: #1f2937;
+  border: 1px solid #374151;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+  z-index: 100;
+  padding: 1rem;
+}
+
+.userDropdownHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #374151;
+  margin-bottom: 1rem;
+}
+
+.userDropdownDivider {
+  height: 1px;
+  background-color: #374151;
+  margin: 0.5rem 0;
+}
+
+.userDropdownSignOutButton {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: #d1d5db;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.userDropdownSignOutButton:hover {
+  background-color: #374151;
+  color: #ffffff;
+}
+
+.userEmailTruncate {
+  white-space: nowrap;       /* Prevent text from wrapping */
+  overflow: hidden;          /* Hide overflowing text */
+  text-overflow: ellipsis;   /* Display ellipsis for overflow */
+  max-width: 100%;           /* Ensure it respects parent width */
 }
