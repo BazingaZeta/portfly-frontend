@@ -13,9 +13,9 @@ const GoogleIcon = () => (
   </svg>
 );
 
-export function SignInButton({ style }: { style?: React.CSSProperties }) {
+export function SignInButton({ style, className }: { style?: React.CSSProperties, className?: string }) {
   return (
-    <button onClick={() => signIn('google')} style={style}>
+    <button onClick={() => signIn('google')} style={style} className={className}>
       <GoogleIcon />
       <span>Sign in with Google</span>
     </button>
