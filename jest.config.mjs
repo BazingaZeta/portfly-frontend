@@ -12,6 +12,8 @@ const config = {
   moduleNameMapper: {
     // Handle CSS imports (with CSS modules)
     '\.module\.(css|sass|scss)$': 'identity-obj-proxy',
+    // Handle module aliases
+    '^@/(.*)$': '<rootDir>/src/$1',
   },
   transformIgnorePatterns: [
     '/node_modules/(?!(jose|openid-client))',
