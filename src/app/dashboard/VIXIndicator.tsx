@@ -30,7 +30,7 @@ export default function VIXIndicator() {
       // Simulate VIX fluctuation
       const fluctuation = (Math.random() - 0.5) * 5; // +/- 2.5
       setVixValue(prevVix => {
-        let newVix = prevVix + fluctuation;
+        let newVix = (prevVix || 20) + fluctuation;
         // Keep VIX within a reasonable range (e.g., 10-80)
         newVix = Math.max(10, Math.min(80, newVix));
         return Math.round(newVix * 100) / 100; // Round to 2 decimal places
@@ -42,6 +42,7 @@ export default function VIXIndicator() {
 
   const vixLevel = getVIXLevel(vixValue);
   const vixColorClass = getVIXColorClass(vixLevel);
+
   return (
     <div className={`${styles.vixIndicatorContainer} ${vixColorClass}`}>
       <h3 className={styles.vixIndicatorTitle}>VIX Index</h3>

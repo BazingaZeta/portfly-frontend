@@ -5,6 +5,7 @@ import MarketSentimentGauge from './MarketSentimentGauge';
 import VIXIndicator from './VIXIndicator';
 import FearGreedIndex from './FearGreedIndex';
 import TopMovers from './TopMovers';
+import FinnhubTestComponent from './FinnhubTestComponent';
 
 export default function DashboardPage() {
   return (
@@ -27,6 +28,8 @@ export default function DashboardPage() {
       <TopMovers />
 
       <PortfolioHoldings />
+
+      <FinnhubTestComponent /> {/* Temporary test component */}
 
     </div>
   );
