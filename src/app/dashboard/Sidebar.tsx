@@ -1,11 +1,11 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation'; // Import useRouter
 import styles from './dashboard.module.css';
 
 export default function Sidebar({ isOpen, toggle }: { isOpen: boolean, toggle: () => void }) {
   const pathname = usePathname();
+  const router = useRouter(); // Initialize useRouter
 
   const menuItems = [
     { href: '/dashboard', label: 'Dashboard' },
@@ -13,6 +13,15 @@ export default function Sidebar({ isOpen, toggle }: { isOpen: boolean, toggle: (
     { href: '/dashboard/watchlist', label: 'Watchlist' },
     { href: '/dashboard/settings', label: 'Settings' },
   ];
+
+  const handleNavigation = (href: string) => {
+    toggle(); // Close the sidebar
+
+    // Use requestAnimationFrame to ensure the DOM updates before navigation
+    requestAnimationFrame(() => {
+      router.push(href); // Programmatically navigate
+    });
+  };
 
   return (
     <aside className={`${styles.sidebar} ${isOpen ? styles.open : ''}`}>
@@ -24,13 +33,12 @@ export default function Sidebar({ isOpen, toggle }: { isOpen: boolean, toggle: (
         <ul>
           {menuItems.map(({ href, label }) => (
             <li key={href}>
-              <Link
-                href={href}
-                className={pathname === href ? styles.active : ''}
-                onClick={toggle} // Always close the sidebar on click
+              <button
+                className={`${styles.sidebarNavLink} ${pathname === href ? styles.active : ''}`}
+                onClick={() => handleNavigation(href)}
               >
                 {label}
-              </Link>
+              </button>
             </li>
           ))}
         </ul>

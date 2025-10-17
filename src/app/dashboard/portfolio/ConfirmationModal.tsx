@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React from 'react';
-import styles from './portfolio.module.css';
+import React from "react";
+import styles from "./portfolio.module.css";
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -28,11 +28,19 @@ export default function ConfirmationModal({
         <h2 className={styles.modalTitle}>{title}</h2>
         <p className={styles.modalMessage}>{message}</p>
         <div className={styles.modalActions}>
-          <button onClick={onClose} className={styles.modalButtonCancel} disabled={isLoading}>
-            Annulla
+          <button
+            onClick={onClose}
+            className={styles.modalButtonCancel}
+            disabled={isLoading}
+          >
+            Cancel
           </button>
-          <button onClick={onConfirm} className={styles.modalButtonConfirm} disabled={isLoading}>
-            {isLoading ? 'Conferma...' : 'Conferma'}
+          <button
+            onClick={onConfirm}
+            className={styles.modalButtonConfirm}
+            disabled={isLoading}
+          >
+            {isLoading ? "Confirm..." : "Confirm"}
           </button>
         </div>
       </div>
