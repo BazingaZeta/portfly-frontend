@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import styles from "./dashboard.module.css";
 import Sidebar from "./Sidebar";
 import UserMenu from "./UserMenu";
+import LoadingPage from "../loading-page";
 
 export default function DashboardLayout({
   children,
@@ -38,7 +39,7 @@ export default function DashboardLayout({
   }, [isMobile, isSidebarOpen]); // Re-run when isMobile or isSidebarOpen changes
 
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return <LoadingPage />;
   }
 
   if (!session) {
