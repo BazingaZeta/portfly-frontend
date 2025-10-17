@@ -89,11 +89,20 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0); /* Start transparent */
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  opacity: 0; /* Hidden by default */
+  pointer-events: none; /* Don't block clicks when hidden */
+  transition: opacity 0.2s ease-in-out;
+}
+
+.modalOverlayOpen {
+  opacity: 1; /* Visible when open */
+  pointer-events: auto; /* Block clicks when open */
+  background-color: rgba(0, 0, 0, 0.7); /* Fade in background */
 }
 
 .modalContent {
@@ -104,6 +113,14 @@
   width: 90%;
   max-width: 400px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(-20px); /* Start slightly above */
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  opacity: 0; /* Hidden by default */
+}
+
+.modalContentOpen {
+  transform: translateY(0); /* Slide to original position */
+  opacity: 1; /* Visible when open */
 }
 
 .modalTitle {

@@ -20,11 +20,9 @@ export default function ConfirmationModal({
   message,
   isLoading = false,
 }: ConfirmationModalProps) {
-  if (!isOpen) return null;
-
   return (
-    <div className={styles.modalOverlay}>
-      <div className={styles.modalContent}>
+    <div className={`${styles.modalOverlay} ${isOpen ? styles.modalOverlayOpen : ''}`} onClick={onClose}>
+      <div className={`${styles.modalContent} ${isOpen ? styles.modalContentOpen : ''}`} onClick={(e) => e.stopPropagation()}>
         <h2 className={styles.modalTitle}>{title}</h2>
         <p className={styles.modalMessage}>{message}</p>
         <div className={styles.modalActions}>
